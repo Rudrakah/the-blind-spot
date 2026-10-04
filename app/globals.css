@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*!
+  THE BLIND SPOT — Global Styles
+  ================================
+  Dark-first premium design with CSS variable theming.
+*/
+
+:root {
+  --bg-primary: #07070a;
+  --bg-secondary: #0b0b12;
+  --bg-tertiary: #11111a;
+  --bg-glass: rgba(17, 17, 26, 0.85);
+  --ink-primary: #e8e8ec;
+  --ink-secondary: #d0d0da;
+  --ink-muted: #6b7280;
+  --accent-primary: #6366f1;
+  --accent-soft: rgba(99, 102, 241, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-tertiary: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --ink-primary: #0f172a;
+  --ink-secondary: #33415b;
+  --ink-muted: #64748b;
+  --accent-primary: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.12);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-strong: rgba(0, 0, 0, 0.12);
+}
+
+/* Base reset via @layer */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+    font-smooth: always;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+  #__next { isolation: isolate; }
+}
+
+/* Utility classes that reference CSS variables — defined here to avoid Tailwind class gaps */
+@layer utilities {
+  .bg-primary { background: var(--bg-primary); }
+  .bg-secondary { background: var(--bg-secondary); }
+  .bg-tertiary { background: var(--bg-tertiary); }
+  .bg-texture { background: var(--bg-primary); }
+  .bg-pattern {
+    background-image:
+      linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+    background-size: 48px 48px;
+    opacity: 0.12;
+  }
+  .bg-glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+  }
+  .text-ink-primary { color: var(--ink-primary); }
+  .text-ink-secondary { color: var(--ink-secondary); }
+  .text-ink-muted { color: var(--ink-muted); }
+  .border-border-subtle { border-color: var(--border-subtle); }
+  .border-border-strong { border-color: var(--border-strong); }
+  .bg-accent-primary { background-color: var(--accent-primary); }
+  .text-accent-primary { color: var(--accent-primary); }
+}
+
+/* Scrollbar */
+@layer utilities {
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+  ::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+}
+
+/* Focus ring */
+@layer utilities {
+  :focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+  }
+}
+
+/* Animations */
+@layer utilities {
+  .transition-fade { transition: opacity 0.3s ease-out; }
+  .transition-color { transition: color 0.2s ease, background-color 0.2s ease; }
+  .transition-shadow { transition: box-shadow 0.3s ease-out; }
+  .transition-transform { transition: transform 0.2s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes scan {
+    0%, 100% { opacity: 0.2; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(4px); }
+  }
+  .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+  .animate-fade-up { animation: fadeUp 0.6s ease-out; }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-scan { animation: scan 2.4s ease-in-out infinite; }
+  .animate-pulse-slow { animation: pulse 3s ease-in-out infinite; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Font definitions via @font-face would be complex; Google Fonts loaded in layout */
+.font-display { font-family: "Space Grotesk", system-ui, sans-serif; }
+.font-mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
